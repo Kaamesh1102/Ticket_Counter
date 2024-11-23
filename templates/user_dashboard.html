@@ -1,58 +1,31 @@
-{%extends "user_layout.html"%}
+{%extends "user_layout.html"%} <!--Inherited all nav features-->
 {%block content%}
-                <!-- start of venue 1 -->
+    {%if theatres%}
+          {%for theatre in theatres%}
+                {%if theatre.shows%}
                 <div class="outer_box">
-                    venue 1
-                    <div class="container">
-                        <div class="row">
-                            <div class="col">
-                            <div class="card" style="width: 18rem;">
-                                <div class="card-body">
-                                <h5 class="card-title">show-1</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">Action</h6>
-                                <button type="button" class="btn btn-outline-warning">Fast booking</button>
-                                </div>
-                            </div>
-                        </div>
+                    {{theatre.name}}
+                  <div class="container">
+                    <div class="row">
+                      {%for show in theatre.shows%}
+                      {%if show.date_time >= dt_time_now%}
                         <div class="col">
                             <div class="card" style="width: 18rem;">
-                                <div class="card-body">
-                                <h5 class="card-title">show-2</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">thriller</h6>
-                                <button type="button" class="btn btn-outline-primary">Add ticket</button>
-                                </div>
+                            <div class="card-body">
+                              <h5 class="card-title">{{show.name}}</h5>
+                              <h6 class="card-subtitle mb-2 text-muted">{{show.tags}}, Show time: {{show.date_time}}</h6>
+                              <a href="/book_ticket/{{uid}}/{{show.id}}/{{name}}" type="button" class="btn btn-outline-primary">Book</a>
                             </div>
+                          </div>
                         </div>
-                        </div>
-                    </div>
+                        {%endif%}
+                      {%endfor%}                      
+                  </div>
                 </div>
-                <!-- <Venue-1 end> -->
-                <!-- start of venue 2 -->
-                <div class="outer_box">
-                    venue 2
-                    <div class="container">
-                        <div class="row">
-                            <div class="col">
-                            <div class="card" style="width: 18rem;">
-                                <div class="card-body">
-                                <h5 class="card-title">show-1</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">Action</h6>
-                                <button type="button" class="btn btn-outline-primary">Add ticket</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card" style="width: 18rem;">
-                                <div class="card-body">
-                                <h5 class="card-title">show-2</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">thriller</h6>
-                                <button type="button" class="btn btn-outline-danger">Houseful</button>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- <Venue-2 end> -->
-                <button type="button" class="btn btn-primary">+ Add Page</button>
-                {%endblock%}
+              </div>
+              {%endif%}
+              {%endfor%}
+      {%else%}
+              <h3 class="center">Sorry, no theatres available!!</h3>
+      {%endif%}
+{%endblock%}
